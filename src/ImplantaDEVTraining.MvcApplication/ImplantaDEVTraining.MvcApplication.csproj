@@ -180,6 +180,20 @@
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ImplantaDEVTraining.Business.Contract\ImplantaDEVTraining.Business.Contract.csproj">
+      <Project>{34d77697-c644-48ec-9c20-97d52b11bf51}</Project>
+      <Name>ImplantaDEVTraining.Business.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ImplantaDEVTraining.Entity\ImplantaDEVTraining.Entity.csproj">
+      <Project>{2c283595-7a98-4356-a094-9dc30b9fc1f1}</Project>
+      <Name>ImplantaDEVTraining.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ImplantaDEVTraining.Ioc\ImplantaDEVTraining.Ioc.csproj">
+      <Project>{fcc2d8f7-4672-4b4d-bff7-640d42ebff0b}</Project>
+      <Name>ImplantaDEVTraining.Ioc</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

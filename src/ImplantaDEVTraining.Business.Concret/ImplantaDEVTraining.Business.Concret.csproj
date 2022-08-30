@@ -43,5 +43,15 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ImplantaDEVTraining.Data\ImplantaDEVTraining.Data.csproj">
+      <Project>{5056f915-879e-4538-a6b4-89943ec859f4}</Project>
+      <Name>ImplantaDEVTraining.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ImplantaDEVTraining.Entity\ImplantaDEVTraining.Entity.csproj">
+      <Project>{2c283595-7a98-4356-a094-9dc30b9fc1f1}</Project>
+      <Name>ImplantaDEVTraining.Entity</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

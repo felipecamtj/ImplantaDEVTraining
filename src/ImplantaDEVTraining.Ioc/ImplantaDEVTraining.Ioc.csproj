@@ -43,5 +43,15 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ImplantaDEVTraining.Business.Concret\ImplantaDEVTraining.Business.Concret.csproj">
+      <Project>{731bd7bd-a988-4f02-bcb7-0b1778830da7}</Project>
+      <Name>ImplantaDEVTraining.Business.Concret</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ImplantaDEVTraining.Business.Contract\ImplantaDEVTraining.Business.Contract.csproj">
+      <Project>{34d77697-c644-48ec-9c20-97d52b11bf51}</Project>
+      <Name>ImplantaDEVTraining.Business.Contract</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

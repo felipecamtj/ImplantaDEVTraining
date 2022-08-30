@@ -52,6 +52,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Categorias.cs" />
+    <Compile Include="Enderecos.cs" />
+    <Compile Include="ImplantaDEVTrainingDbContext.cs" />
+    <Compile Include="ModelBuilderConfigurations\CategoriasConfiguration.cs" />
+    <Compile Include="ModelBuilderConfigurations\EnderecosConfiguration.cs" />
+    <Compile Include="ModelBuilderConfigurations\ProfissionaisConfiguration.cs" />
+    <Compile Include="Profissionais.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
