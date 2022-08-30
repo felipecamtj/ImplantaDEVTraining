@@ -25,6 +25,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mvc", "Mvc", "{61059242-E22
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImplantaDEVTraining.MvcApplication", "ImplantaDEVTraining.MvcApplication\ImplantaDEVTraining.MvcApplication.csproj", "{D964E74C-D15F-4510-A5F8-1DC3FEA2509A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{71D1FC10-9934-42E7-B38D-C2E4D1DCFDA6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImplantaDEVTraining.Common", "ImplantaDEVTraining.Common\ImplantaDEVTraining.Common.csproj", "{D3EFD75F-77C1-47BB-8444-B1704F2231D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +59,10 @@ Global
 		{D964E74C-D15F-4510-A5F8-1DC3FEA2509A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D964E74C-D15F-4510-A5F8-1DC3FEA2509A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D964E74C-D15F-4510-A5F8-1DC3FEA2509A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3EFD75F-77C1-47BB-8444-B1704F2231D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3EFD75F-77C1-47BB-8444-B1704F2231D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3EFD75F-77C1-47BB-8444-B1704F2231D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3EFD75F-77C1-47BB-8444-B1704F2231D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,6 +74,7 @@ Global
 		{731BD7BD-A988-4F02-BCB7-0B1778830DA7} = {534B25F1-D686-4D79-8195-121548A5B497}
 		{FCC2D8F7-4672-4B4D-BFF7-640D42EBFF0B} = {4047A2BE-AADC-425B-BD03-D70D256DF2AD}
 		{D964E74C-D15F-4510-A5F8-1DC3FEA2509A} = {61059242-E22E-472E-A469-E90A5F5C8885}
+		{D3EFD75F-77C1-47BB-8444-B1704F2231D0} = {71D1FC10-9934-42E7-B38D-C2E4D1DCFDA6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {49B8835C-7ACE-47D4-A35D-C9815B633F46}
