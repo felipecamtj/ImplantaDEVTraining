@@ -15,7 +15,7 @@ namespace ImplantaDEVTraining.MvcApplication.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Aplicação do Bruno.";
 
             return View();
         }
