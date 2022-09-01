@@ -6,49 +6,53 @@ using ImplantaDEVTraining.Entity.FilterEntity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Transactions;
 
 namespace ImplantaDEVTraining.Business.Concret
 {
-    public class CategoriasBusiness : BaseBusiness<CategoriasEntity, CategoriasFilterEntity, Categorias>, ICategoriasBusiness
+    public class ProfissionaisBusiness : BaseBusiness<ProfissionaisEntity, ProfissionaisFilterEntity, Profissionais>, IProfissionaisBusiness
     {
-        public override List<CategoriasEntity> BuscarRegistros(CategoriasFilterEntity filtro)
+        public override List<ProfissionaisEntity> BuscarRegistros(ProfissionaisFilterEntity filtro)
         {
-            var result = new List<CategoriasEntity>();
+            var result = new List<ProfissionaisEntity>();
 
             using (var db = new ImplantaDEVTrainingDbContext())
             {
-                var query = from c in db.Categorias
-                            select c;
+                var query = from p in db.Profissionais
+                            select p;
 
                 bool filtrouPorId = false;
 
                 if (filtro.Id.HasValue)
                 {
-                    query = query.Where(c => c.Id == filtro.Id);
+                    query = query.Where(p => p.Id == filtro.Id);
                     filtrouPorId = true;
                 }
 
                 if (filtro.Ids != null && filtro.Ids.Any())
                 {
-                    query = query.Where(c => filtro.Ids.Contains(c.Id));
+                    query = query.Where(p => filtro.Ids.Contains(p.Id));
                     filtrouPorId = true;
                 }
 
+                if (filtro.IdCategoria.HasValue)
+                    query = query.Where(p => p.Id == filtro.Id);
+
                 if (!string.IsNullOrEmpty(filtro.Nome))
-                    query = query.Where(c => c.Nome.StartsWith(filtro.Nome));
+                    query = query.Where(p => p.Nome.StartsWith(filtro.Nome));
 
                 if (filtro.SomenteAtivos && !filtrouPorId)
-                    query = query.Where(c => c.Ativo);
+                    query = query.Where(p => p.Ativo);
 
-                query = query.OrderBy(c => c.Nome);
+                query = query.OrderBy(p => p.Nome);
                 query = query.Skip(filtro.Skip).Take(filtro.Take);
 
                 foreach (var item in query)
                 {
-                    var entity = new CategoriasEntity();
+                    var entity = new ProfissionaisEntity();
                     PropertyCopy.Copy(item, entity);
-
                     result.Add(entity);
                 }
             }
@@ -56,7 +60,7 @@ namespace ImplantaDEVTraining.Business.Concret
             return result;
         }
 
-        public override Operacao<List<CategoriasEntity>> SalvarLista(Operacao<List<CategoriasEntity>> operacao)
+        public override Operacao<List<ProfissionaisEntity>> SalvarLista(Operacao<List<ProfissionaisEntity>> operacao)
         {
             try
             {
@@ -64,7 +68,7 @@ namespace ImplantaDEVTraining.Business.Concret
 
                 if (operacao.Erro)
                     return operacao;
-                
+
                 operacao
                     .Entidade
                     .Where(e => e.Acao != EntityAction.Delete)
@@ -86,7 +90,7 @@ namespace ImplantaDEVTraining.Business.Concret
 
                     if (!operacao.Erro)
                         transacao.Complete();
-                }                
+                }
 
                 if (!operacao.Erro)
                 {
@@ -102,33 +106,33 @@ namespace ImplantaDEVTraining.Business.Concret
             return operacao;
         }
 
-        private ActionReturn ValidarDuplicidade(ImplantaDEVTrainingDbContext db)
+        private ActionReturn ValidarEntidade(ProfissionaisEntity profissional)
         {
             var result = new ActionReturn();
 
-            var query = from c in db.Categorias
-                        group c by c.Nome into grupo                        
-                        select new
-                        {
-                            Nome = grupo.Key,
-                            Qtd = grupo.Count()
-                        };
+            if (profissional.Id == Guid.Empty)
+                result.AdicionarErro("O campo Id é obrigatório.");
 
-            foreach (var categoriaDuplicada in query.Where(c => c.Qtd > 1).OrderBy(c => c.Nome))            
-                result.AdicionarErro($"Categoria duplicada: {categoriaDuplicada.Nome}");
+            if (profissional.IdCategoria == Guid.Empty)
+                result.AdicionarErro("O campo IdCategoria é obrigatório.");
+
+            if (string.IsNullOrEmpty(profissional.Nome))
+                result.AdicionarErro("O campo Nome é obrigatório.");
 
             return result;
         }
 
-        private ActionReturn ValidarEntidade(CategoriasEntity categoria)
+        private ActionReturn ValidarDuplicidade(ImplantaDEVTrainingDbContext db)
         {
             var result = new ActionReturn();
 
-            if (categoria.Id == Guid.Empty)
-                result.AdicionarErro("O campo Id é obrigatório");
+            var duplicados = from p in db.Profissionais
+                             group p by p.Nome into grupo
+                             where grupo.Count() > 1
+                             select grupo.Key;
 
-            if (string.IsNullOrEmpty(categoria.Nome))
-                result.AdicionarErro("O campo Nome é obrigatório.");
+            foreach (var duplicado in duplicados.OrderBy(d => d))
+                result.AdicionarErro($"Nome duplicado: {duplicado}");
 
             return result;
         }

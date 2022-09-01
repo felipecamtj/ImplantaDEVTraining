@@ -72,9 +72,9 @@ namespace ImplantaDEVTraining.Business.Concret
             return result;
         }
 
-        protected Operacao<List<TEntity>> ValidarOperacao(Operacao<List<TEntity>> operacao)
+        protected Operacao<List<TEntity>> ValidarEntidade(Operacao<List<TEntity>> operacao)
         {
-            if (operacao == null || operacao.Entidade == null)            
+            if (operacao.Entidade == null)            
                 operacao.AdicionarErro("Operação inválida!");                            
 
             return operacao;

@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ICategoriasBusiness.cs" />
+    <Compile Include="IEnderecosBusiness.cs" />
+    <Compile Include="IProfissionaisBusiness.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

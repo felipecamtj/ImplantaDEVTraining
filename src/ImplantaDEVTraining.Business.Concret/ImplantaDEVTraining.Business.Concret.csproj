@@ -54,6 +54,8 @@
   <ItemGroup>
     <Compile Include="BaseBusiness.cs" />
     <Compile Include="CategoriasBusiness.cs" />
+    <Compile Include="EnderecosBusiness.cs" />
+    <Compile Include="ProfissionaisBusiness.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
