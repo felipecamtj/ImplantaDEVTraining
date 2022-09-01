@@ -6,14 +6,19 @@ using ImplantaDEVTraining.Entity.FilterEntity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Transactions;
 
 namespace ImplantaDEVTraining.Business.Concret
 {
     public class ProfissionaisBusiness : BaseBusiness<ProfissionaisEntity, ProfissionaisFilterEntity, Profissionais>, IProfissionaisBusiness
     {
+        private readonly IEnderecosBusiness _enderecosBusiness;
+
+        public ProfissionaisBusiness(IEnderecosBusiness enderecosBusiness)
+        {
+            _enderecosBusiness = enderecosBusiness;
+        }
+
         public override List<ProfissionaisEntity> BuscarRegistros(ProfissionaisFilterEntity filtro)
         {
             var result = new List<ProfissionaisEntity>();
@@ -57,7 +62,26 @@ namespace ImplantaDEVTraining.Business.Concret
                 }
             }
 
+            if (result.Any() && filtro.CarregarEnderecos)
+            {
+                var idsProfissionais = result
+                    .Select(r => r.Id)
+                    .Distinct()
+                    .ToList();
+
+                var enderecos = BuscarEnderecos(idsProfissionais);
+                result.ForEach(p => p.Enderecos = enderecos.Where(e => e.IdProfissional == p.Id).ToList());
+            }
+
             return result;
+        }
+
+        private List<EnderecosEntity> BuscarEnderecos(List<Guid> idsProfissionais)
+        {
+            return _enderecosBusiness.BuscarRegistros(new EnderecosFilterEntity
+            {
+                IdsProfissionais = idsProfissionais
+            });            
         }
 
         public override Operacao<List<ProfissionaisEntity>> SalvarLista(Operacao<List<ProfissionaisEntity>> operacao)
@@ -78,6 +102,14 @@ namespace ImplantaDEVTraining.Business.Concret
                 if (operacao.Erro)
                     return operacao;
 
+                var enderecos = operacao
+                    .Entidade
+                    .Where(p => p.Acao != EntityAction.Delete && p.Enderecos != null)
+                    .SelectMany(p => p.Enderecos)
+                    .ToList();
+
+                var operacaoEnderecos = new Operacao<List<EnderecosEntity>>(enderecos);
+
                 using (var transacao = new TransactionScope())
                 {
                     using (var db = new ImplantaDEVTrainingDbContext())
@@ -89,13 +121,23 @@ namespace ImplantaDEVTraining.Business.Concret
                     }
 
                     if (!operacao.Erro)
+                    {
+                        operacaoEnderecos = _enderecosBusiness.SalvarLista(operacaoEnderecos);
+                        operacao.AdicionarErro(operacaoEnderecos);
+                    }
+
+                    if (!operacao.Erro)
                         transacao.Complete();
                 }
 
                 if (!operacao.Erro)
                 {
-                    operacao.Entidade.RemoveAll(e => e.Acao == EntityAction.Delete);
-                    operacao.Entidade.ForEach(e => e.Acao = EntityAction.None);
+                    operacao.Entidade.RemoveAll(p => p.Acao == EntityAction.Delete);                    
+                    operacao.Entidade.ForEach(p =>
+                    {
+                        p.Acao = EntityAction.None;
+                        p.Enderecos = operacaoEnderecos.Entidade.Where(e => e.IdProfissional == p.Id).ToList();
+                    });
                 }
             }
             catch (Exception ex)
