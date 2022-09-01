@@ -43,6 +43,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -56,6 +57,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ImplantaDEVTraining.Business.Contract\ImplantaDEVTraining.Business.Contract.csproj">
+      <Project>{34d77697-c644-48ec-9c20-97d52b11bf51}</Project>
+      <Name>ImplantaDEVTraining.Business.Contract</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ImplantaDEVTraining.Common\ImplantaDEVTraining.Common.csproj">
       <Project>{d3efd75f-77c1-47bb-8444-b1704f2231d0}</Project>
       <Name>ImplantaDEVTraining.Common</Name>

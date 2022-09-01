@@ -23,7 +23,7 @@ namespace ImplantaDEVTraining.Business.Concret
 
         public abstract List<TEntity> BuscarRegistros(TFilterEntity filtro);
 
-        public Operacao<TEntity> Salvar(Operacao<TEntity> operacao)
+        public virtual Operacao<TEntity> Salvar(Operacao<TEntity> operacao)
         {
             var operacaoLista = new Operacao<List<TEntity>>(new List<TEntity> { operacao.Entidade });
             operacaoLista = SalvarLista(operacaoLista);
@@ -70,6 +70,14 @@ namespace ImplantaDEVTraining.Business.Concret
             }
 
             return result;
+        }
+
+        protected Operacao<List<TEntity>> ValidarOperacao(Operacao<List<TEntity>> operacao)
+        {
+            if (operacao == null || operacao.Entidade == null)            
+                operacao.AdicionarErro("Operação inválida!");                            
+
+            return operacao;
         }
     }
 }
