@@ -19,6 +19,63 @@ namespace ImplantaDEVTraining.Business.Concret
             _enderecosBusiness = enderecosBusiness;
         }
 
+        public List<ProfissionaisCategoriaEntity> BuscarRegistrosAgrupadoPorCategoria(ProfissionaisCategoriaFilterEntity filtro)
+        {
+            var result = new List<ProfissionaisCategoriaEntity>();
+            using (var db = new ImplantaDEVTrainingDbContext())
+            {
+                var categorias = from c in db.Categorias
+                                 select c;
+
+                if (!string.IsNullOrEmpty(filtro.NomeCategoria))
+                    categorias = categorias.Where(c => c.Nome.StartsWith(filtro.NomeCategoria));
+
+                if (filtro.SomenteCategoriaAtiva == OpcaoBoolean.Sim)
+                    categorias = categorias.Where(c => c.Ativo);
+                else if (filtro.SomenteCategoriaAtiva == OpcaoBoolean.Nao)
+                    categorias = categorias.Where(c => !c.Ativo);
+
+                categorias = categorias.OrderBy(c => c.Nome);
+
+                var idsCategorias = categorias
+                                    .Select(c => c.Id)
+                                    .Distinct()
+                                    .ToList();
+
+                if (idsCategorias.Any())
+                {
+                    var profissionais = from p in db.Profissionais
+                                        where idsCategorias.Contains(p.Id)
+                                        select p;
+
+                    if (filtro.SomenteProfissionaisAtivo == OpcaoBoolean.Sim)
+                        profissionais = profissionais.Where(p => p.Ativo);
+                    else if (filtro.SomenteProfissionaisAtivo == OpcaoBoolean.Nao)
+                        profissionais = profissionais.Where(p => !p.Ativo);
+
+                    foreach (var c in categorias)
+                    {
+                        result.Add(new ProfissionaisCategoriaEntity
+                        {
+                            NomeCategoria = c.Nome,
+                            Profissionais = profissionais
+                                            .Where(p => p.IdCategoria == c.Id)
+                                            .Select(p => new ProfissionalCategoriaEntity
+                                            {
+                                                Nome = p.Nome,
+                                                CPF = p.CPF,
+                                                DataNascimento = p.DataNascimento,
+                                                RG = p.RG
+                                            })
+                                            .OrderBy(p => p.Nome)
+                                            .ToList()
+                        });
+                    }
+                }
+            }
+            return result;
+        }
+
         public override List<ProfissionaisEntity> BuscarRegistros(ProfissionaisFilterEntity filtro)
         {
             var result = new List<ProfissionaisEntity>();

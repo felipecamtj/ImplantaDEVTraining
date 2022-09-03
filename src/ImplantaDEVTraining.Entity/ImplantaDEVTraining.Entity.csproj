@@ -45,7 +45,9 @@
     <Compile Include="EnderecosEntity.cs" />
     <Compile Include="FilterEntity\CategoriasFilterEntity.cs" />
     <Compile Include="FilterEntity\EnderecosFilterEntity.cs" />
+    <Compile Include="FilterEntity\ProfissionaisCategoriaFilterEntity.cs" />
     <Compile Include="FilterEntity\ProfissionaisFilterEntity.cs" />
+    <Compile Include="ProfissionaisCategoriaEntity.cs" />
     <Compile Include="ProfissionaisEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
