@@ -1,6 +1,5 @@
-﻿using ImplantaDEVTraining.Business.Concret;
-using ImplantaDEVTraining.Business.Contract;
-using Ninject;
+﻿using Ninject;
+using Ninject.Extensions.Conventions;
 using Ninject.Web.Common;
 
 namespace ImplantaDEVTraining.Ioc
@@ -9,9 +8,13 @@ namespace ImplantaDEVTraining.Ioc
     {
         public static void Bind(IKernel kernel)
         {
-            kernel.Bind<ICategoriasBusiness>().To<CategoriasBusiness>().InRequestScope();
-            kernel.Bind<IEnderecosBusiness>().To<EnderecosBusiness>().InRequestScope();
-            kernel.Bind<IProfissionaisBusiness>().To<ProfissionaisBusiness>().InRequestScope();
+            //https://stackoverflow.com/questions/9824863/convention-based-dependency-injection-with-ninject-3-0-0 
+
+            kernel.Bind(x => x.FromAssembliesMatching("..\\..\\ImplantaDEVTraining.Ioc\\bin\\Debug\\ImplantaDEVTraining.Business.Concret.dll")
+                  .SelectAllClasses()
+                  .BindAllInterfaces()
+                  .Configure(o => o.InRequestScope()));
+
         }
     }
 }
