@@ -4,7 +4,7 @@ using ImplantaDEVTraining.Entity.FilterEntity;
 
 namespace ImplantaDEVTraining.Business.Contract
 {
-    public interface IProfissionaisBusiness: IBusiness<ProfissionaisEntity, ProfissionaisFilterEntity>
+    public interface IProfissionaisBusiness : IBusiness<ProfissionaisEntity, ProfissionaisFilterEntity>
     {
 
     }
