@@ -14,7 +14,7 @@ namespace ImplantaDEVTraining.Business.Concret
     {
         private readonly IEnderecosBusiness _enderecosBusiness;
 
-        public ProfissionaisBusiness(IEnderecosBusiness enderecosBusiness)
+        public ProfissionaisBusiness(IEnderecosBusiness enderecosBusiness, ICategoriasBusiness categoriasBusiness)
         {
             _enderecosBusiness = enderecosBusiness;
         }
@@ -176,6 +176,64 @@ namespace ImplantaDEVTraining.Business.Concret
             foreach (var duplicado in duplicados.OrderBy(d => d))
                 result.AdicionarErro($"Nome duplicado: {duplicado}");
 
+            return result;
+        }
+
+        public List<ConsultaProfissionalCategoriaEntity> BuscarRegistrosByCategoria(ProfissionalByCategoriaFilterEntity filtro)
+        {
+            var result = new List<ConsultaProfissionalCategoriaEntity>();
+
+            using (var db = new ImplantaDEVTrainingDbContext())
+            {
+                var query = from prof in db.Profissionais
+                            join cat in db.Categorias
+                            on prof.Id equals cat.Id 
+                            select new
+                            {
+                                prof.Nome,
+                                prof.DataNascimento,
+                                prof.CPF,
+                                prof.RG,
+                                prof.Ativo,
+                                AtivoCategoria = cat.Ativo,
+                                NomeCategoria = cat.Nome
+                            };
+
+                if (!string.IsNullOrEmpty(filtro.NomeCategoria))
+                    query = query.Where(c => c.NomeCategoria == filtro.NomeCategoria);
+
+                if(filtro.CategoriaAtivo != OpcaoAction.Todos)
+                {
+                    if (filtro.CategoriaAtivo == OpcaoAction.Sim)
+                        query = query.Where(c => c.AtivoCategoria == true);
+                    else
+                        query = query.Where(c => c.AtivoCategoria == false);
+                }
+                if (filtro.ProfissionalAtivo != OpcaoAction.Todos)
+                {
+                    if (filtro.ProfissionalAtivo == OpcaoAction.Sim)
+                        query = query.Where(p => p.Ativo == true);
+                    else
+                        query = query.Where(p => p.Ativo == false);
+                }
+                query = query.OrderBy(c => c.NomeCategoria).OrderBy(c => c.Nome);
+                query = query.Skip(filtro.Skip).Take(filtro.Take);
+
+                foreach (var item in query)
+                {
+                    var entity = new ConsultaProfissionalCategoriaEntity();
+                    PropertyCopy.Copy(item, entity);
+                    result.Add(entity);
+                }
+
+                //Não consegui agrupar a lista de categorias com o LINQ a lista veio apenas ordenada
+
+               /* if (result.Any())
+                {
+                    result.SelectMany(c => new List<string>(
+                        c.Categorias.Select(p => p.Nome + p.DataNascimento + p.CPF + c.RG)));
+                }*/
+            }
             return result;
         }
     }
