@@ -1,36 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Web;
-using System.Web.Mvc;
+﻿using ImplantaDEVTraining.Business.Contract;
+using ImplantaDEVTraining.Entity;
+using ImplantaDEVTraining.Entity.FilterEntity;
 
 namespace ImplantaDEVTraining.MvcApplication.Controllers
 {
-    public class CategoriasController : Controller
+    public class CategoriasController : BaseController<ICategoriasBusiness, CategoriasEntity, CategoriasFilterEntity>
     {
-        [HttpPost]
-        public string Mensagem()
+        public CategoriasController(ICategoriasBusiness business) 
+            : base(business)
         {
-            return "Esta é uma mensagem de teste";
-        }
 
-        public DateTime DataAtual()
-        {
-            return DateTime.Now;
-        }
-
-        public int Idade()
-        {
-            return 30;
-        }
-
-        // GET: Categorias
-        public ActionResult Index(string nome, int idade)
-        {
-            ViewBag.Nome = nome;
-            ViewData["Idade"] = idade;
-            return View();
         }
     }
 }

@@ -19,40 +19,75 @@ namespace ImplantaDEVTraining.Business.Concret
             _enderecosBusiness = enderecosBusiness;
         }
 
+        private IQueryable<Profissionais> Query(ImplantaDEVTrainingDbContext db, ProfissionaisFilterEntity filtro)
+        {
+            var query = from p in db.Profissionais
+                        select p;
+
+            bool filtrouPorId = false;
+
+            if (filtro.Id.HasValue)
+            {
+                query = query.Where(p => p.Id == filtro.Id);
+                filtrouPorId = true;
+            }
+
+            if (filtro.Ids != null && filtro.Ids.Any())
+            {
+                query = query.Where(p => filtro.Ids.Contains(p.Id));
+                filtrouPorId = true;
+            }
+
+            if (filtro.IdCategoria.HasValue)
+                query = query.Where(p => p.Id == filtro.Id);
+
+            if (!string.IsNullOrEmpty(filtro.Nome))
+                query = query.Where(p => p.Nome.StartsWith(filtro.Nome));
+
+            if (filtro.SomenteAtivos && !filtrouPorId)
+                query = query.Where(p => p.Ativo);
+
+            query = query.OrderBy(p => p.Nome);
+            query = query.Skip(filtro.Skip).Take(filtro.Take);
+
+            return query;
+        }
+
+        public List<ProfissionaisItemListaEntity> BuscarListage(ProfissionaisFilterEntity filtro)
+        {
+            var result = new List<ProfissionaisItemListaEntity>();
+
+            using (var db = new ImplantaDEVTrainingDbContext())
+            {
+                var query = Query(db, filtro);
+
+                var listagem = query.Select(q => new
+                {
+                    q.Id,
+                    q.Nome,
+                    q.Ativo,
+                    q.CPF,
+                    q.RG
+                });
+
+                foreach (var item in listagem)
+                {
+                    var entity = new ProfissionaisItemListaEntity();
+                    PropertyCopy.Copy(item, entity);
+                    result.Add(entity);
+                }
+            }
+
+            return result;
+        }
+
         public override List<ProfissionaisEntity> BuscarRegistros(ProfissionaisFilterEntity filtro)
         {
             var result = new List<ProfissionaisEntity>();
 
             using (var db = new ImplantaDEVTrainingDbContext())
             {
-                var query = from p in db.Profissionais
-                            select p;
-
-                bool filtrouPorId = false;
-
-                if (filtro.Id.HasValue)
-                {
-                    query = query.Where(p => p.Id == filtro.Id);
-                    filtrouPorId = true;
-                }
-
-                if (filtro.Ids != null && filtro.Ids.Any())
-                {
-                    query = query.Where(p => filtro.Ids.Contains(p.Id));
-                    filtrouPorId = true;
-                }
-
-                if (filtro.IdCategoria.HasValue)
-                    query = query.Where(p => p.Id == filtro.Id);
-
-                if (!string.IsNullOrEmpty(filtro.Nome))
-                    query = query.Where(p => p.Nome.StartsWith(filtro.Nome));
-
-                if (filtro.SomenteAtivos && !filtrouPorId)
-                    query = query.Where(p => p.Ativo);
-
-                query = query.OrderBy(p => p.Nome);
-                query = query.Skip(filtro.Skip).Take(filtro.Take);
+                var query = Query(db, filtro);
 
                 foreach (var item in query)
                 {

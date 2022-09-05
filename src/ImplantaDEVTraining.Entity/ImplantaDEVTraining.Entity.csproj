@@ -48,6 +48,7 @@
     <Compile Include="FilterEntity\EnderecosFilterEntity.cs" />
     <Compile Include="FilterEntity\ProfissionaisFilterEntity.cs" />
     <Compile Include="ProfissionaisEntity.cs" />
+    <Compile Include="ProfissionaisItemListaEntity.cs" />
     <Compile Include="ProfissionaisPorCategoriaReport\CategoriaEntity.cs" />
     <Compile Include="ProfissionaisPorCategoriaReport\ProfissionalEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
