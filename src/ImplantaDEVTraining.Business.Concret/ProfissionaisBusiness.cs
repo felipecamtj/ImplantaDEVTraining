@@ -107,7 +107,7 @@ namespace ImplantaDEVTraining.Business.Concret
                 if (filtro.ProfissionalAtivo != null)
                     query = query.Where(x => x.ProfissionalAtivo == filtro.ProfissionalAtivo);
 
-                query = query.OrderBy(x => x.Categoria).OrderBy(x => x.NomeProfissional);
+                query = query.OrderBy(x => x.Categoria).ThenBy(x => x.NomeProfissional);
 
                 var lista = query.ToList();
                 foreach (var item in lista.Select(x => x.IdCategoria).Distinct())
