@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ImplantaDEVTraining.Business.Contract;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +9,13 @@ namespace ImplantaDEVTraining.MvcApplication.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ICategoriasBusiness _categoriasBusiness;
+
+        public HomeController(ICategoriasBusiness categoriasBusiness)
+        {
+            _categoriasBusiness = categoriasBusiness;
+        }
+
         public ActionResult Index()
         {
             return View();

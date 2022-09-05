@@ -2,6 +2,7 @@
 using ImplantaDEVTraining.Business.Contract;
 using Ninject;
 using Ninject.Web.Common;
+using Ninject.Extensions.Conventions;
 
 namespace ImplantaDEVTraining.Ioc
 {
@@ -9,9 +10,13 @@ namespace ImplantaDEVTraining.Ioc
     {
         public static void Bind(IKernel kernel)
         {
-            kernel.Bind<ICategoriasBusiness>().To<CategoriasBusiness>().InRequestScope();
-            kernel.Bind<IEnderecosBusiness>().To<EnderecosBusiness>().InRequestScope();
-            kernel.Bind<IProfissionaisBusiness>().To<ProfissionaisBusiness>().InRequestScope();
+            kernel.Bind(x =>
+            {
+                x.FromAssembliesMatching(@"..\..\ImplantaDEVTraining.Ioc\bin\Debug\ImplantaDEVTraining.Business.Concret.dll")
+                .SelectAllClasses()
+                .BindDefaultInterface()
+                .Configure(y => y.InRequestScope());
+            });
         }
     }
 }
