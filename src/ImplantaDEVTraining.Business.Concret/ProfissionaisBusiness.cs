@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Transactions;
+using static ImplantaDEVTraining.Entity.ProfissionaisCategoriasEntity;
 
 namespace ImplantaDEVTraining.Business.Concret
 {
@@ -175,6 +176,62 @@ namespace ImplantaDEVTraining.Business.Concret
 
             foreach (var duplicado in duplicados.OrderBy(d => d))
                 result.AdicionarErro($"Nome duplicado: {duplicado}");
+
+            return result;
+        }
+
+        public List<ProfissionaisCategoriasEntity> ProfissionaisAgrupadosCategorias(ProfissionaisCategoriasFilterEntity filtro)
+        {
+            var result = new List<ProfissionaisCategoriasEntity>();
+
+            using (var db = new ImplantaDEVTrainingDbContext())
+            {
+                var query = from p in db.Profissionais
+                            join c in db.Categorias on p.IdCategoria equals c.Id
+                            select new
+                            {
+                                NomeCategoria = c.Nome,
+                                CategoriaAtiva = c.Ativo,
+                                NomeProfissional = p.Nome,
+                                DataNascimento = p.DataNascimento,
+                                CPF = p.CPF,
+                                RG = p.RG,
+                                ProfissionalAtivo = p.Ativo   
+                            };
+
+                if (!string.IsNullOrEmpty(filtro.NomeCategoria))
+                    query = query.Where(p => p.NomeCategoria.StartsWith(filtro.NomeCategoria));
+
+                if (filtro.SomenteCategoriasAtivas.HasValue)
+                    query = query.Where(c => c.CategoriaAtiva == filtro.SomenteCategoriasAtivas);
+
+                if (filtro.SomenteProfissionaisAtivos.HasValue)
+                    query = query.Where(p => p.ProfissionalAtivo == filtro.SomenteProfissionaisAtivos);
+
+                query = query.OrderBy(c => c.NomeCategoria).ThenBy(p => p.NomeProfissional);
+
+                var data = query.ToList();
+                var categorias = data.Select(c => c.NomeCategoria).Distinct();
+
+                foreach (var categoria in categorias)
+                {
+                    var profissionais = data.Where(p => p.NomeCategoria == categoria).Select(p => new ProfissionaisNaCategoria
+                    {
+                        Nome = p.NomeProfissional,
+                        DataNascimento = p.DataNascimento,
+                        CPF = p.CPF,
+                        RG = p.RG
+                    });
+
+                    result.Add(new ProfissionaisCategoriasEntity
+                    {
+                        NomeCategoria = categoria,
+                        Profissionais = profissionais.ToList()
+                    });
+                }
+            }
+
+
 
             return result;
         }
