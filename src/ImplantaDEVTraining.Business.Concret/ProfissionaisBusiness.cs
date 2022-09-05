@@ -53,7 +53,7 @@ namespace ImplantaDEVTraining.Business.Concret
             return query;
         }
 
-        public List<ProfissionaisItemListaEntity> BuscarListage(ProfissionaisFilterEntity filtro)
+        public List<ProfissionaisItemListaEntity> BuscarListagem(ProfissionaisFilterEntity filtro)
         {
             var result = new List<ProfissionaisItemListaEntity>();
 
@@ -109,6 +109,17 @@ namespace ImplantaDEVTraining.Business.Concret
             }
 
             return result;
+        }
+
+        public override ProfissionaisEntity BuscarRegistro(Guid id)
+        {
+            var filtro = new ProfissionaisFilterEntity
+            {
+                Id = id,
+                CarregarEnderecos = true
+            };
+
+            return BuscarRegistros(filtro).FirstOrDefault();
         }
 
         private List<EnderecosEntity> BuscarEnderecos(List<Guid> idsProfissionais)
