@@ -136,6 +136,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\CategoriasController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -178,6 +180,7 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Categorias\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -200,6 +203,10 @@
     <ProjectReference Include="..\ImplantaDEVTraining.Business.Contract\ImplantaDEVTraining.Business.Contract.csproj">
       <Project>{34d77697-c644-48ec-9c20-97d52b11bf51}</Project>
       <Name>ImplantaDEVTraining.Business.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ImplantaDEVTraining.Common\ImplantaDEVTraining.Common.csproj">
+      <Project>{d3efd75f-77c1-47bb-8444-b1704f2231d0}</Project>
+      <Name>ImplantaDEVTraining.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\ImplantaDEVTraining.Entity\ImplantaDEVTraining.Entity.csproj">
       <Project>{2c283595-7a98-4356-a094-9dc30b9fc1f1}</Project>

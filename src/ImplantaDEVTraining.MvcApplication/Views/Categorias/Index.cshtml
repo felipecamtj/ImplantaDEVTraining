@@ -1,0 +1,24 @@
+﻿
+@{ 
+    Layout = null;
+    string nome = ViewBag.Nome;
+    int idade = (int)ViewData["Idade"];
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <div>
+        Nome informado: @nome
+    </div>
+
+    <div>
+        Nome informado: @idade.ToString()
+    </div>
+</body>
+</html>
