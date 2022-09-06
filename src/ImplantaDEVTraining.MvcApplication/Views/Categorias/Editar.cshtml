@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "Categorias";
+    Guid? id = null;
+
+    if (ViewData["id"] != null)
+    {
+        id = Guid.Parse(ViewData["id"].ToString());
+    }
+}
+
+<div class="container">
+    <div class="table-wrapper">
+        <div style="margin-bottom: 20px">
+            <div class="row">
+                <div class="col-sm-10">
+                    <h4>Dados da <b>categoria</b></h4>
+                </div>
+            </div>
+        </div>
+
+        <form id="formCategorias" data-bind="with: $root.Model" action="">
+            <div class="form-group">
+                <label for="nome">Nome:</label>
+                <input type="text" class="form-control required" id="nome" name="nome" data-bind="value: Nome" data-val="true"
+                       data-val-required="O campo nome é obrigatório." required>
+                <span data-valmsg-for="nome"
+                      data-valmsg-replace="true"
+                      style="color: red;" />
+            </div>
+
+            <div class="checkbox">
+                <label><input type="checkbox" data-bind="checked: Ativo"> Ativo</label>
+            </div>
+
+            <button type="button" class="btn btn-primary" data-bind="click: $root.BtnSalvarClick">Salvar</button>
+            <button type="button" class="btn btn-danger" data-bind="visible: $root.BtnExcluirVisible, click: $root.BtnExcluirClick">Excluir</button>
+            <button type="button" class="btn btn-secondary" data-bind="click: $root.BtnCancelarClick">Cancelar</button>
+        </form>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        const vm = new Categorias_EditarViewModel('@id');
+        $(document).ready(function () {
+            ko.applyBindings(vm);
+        });
+        $.ContentViewModel = vm;
+    </script>
+}

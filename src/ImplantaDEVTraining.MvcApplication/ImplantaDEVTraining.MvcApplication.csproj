@@ -180,6 +180,7 @@
     <Content Include="Scripts\knockout.viewmodel.2.0.3.js" />
     <Content Include="Scripts\knockout.viewmodel.2.0.3.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\ViewModels\Categorias\EditarViewModel.js" />
     <Content Include="Scripts\ViewModels\Categorias\IndexViewModel.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -198,6 +199,7 @@
     <Content Include="Views\Categorias\Index.cshtml" />
     <Content Include="SysDataBase.config" />
     <Content Include="Scripts\knockout.custom-bindings" />
+    <Content Include="Views\Categorias\Editar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
