@@ -15,6 +15,9 @@ namespace ImplantaDEVTraining.MvcApplication
                         "~/Scripts/jquery.validate.min.js",
                         "~/Scripts/jquery.validate.unobtrusive.min.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/knockoutjs").Include(            
+                        "~/Scripts/knockout-{version}.js"));            
+
             bundles.Add(new ScriptBundle("~/bundles/knockout-viewmodel").Include(
                         "~/Scripts/knockout.viewmodel.{version}.js",
                         "~/Scripts/knockout.custom-bindings.js"));
