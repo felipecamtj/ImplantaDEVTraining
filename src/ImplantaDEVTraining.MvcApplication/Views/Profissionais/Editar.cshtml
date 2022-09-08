@@ -1,0 +1,108 @@
+﻿@{
+    ViewBag.Title = "Dados ";
+    Guid? id = null;
+
+    if (ViewData["id"] != null)
+    {
+        id = Guid.Parse(ViewData["id"].ToString());
+    }
+}
+
+<div class="container">
+    <div class="table-wrapper">
+        <div class="titulo-profissional">
+            <div class="row">
+                <div class="col-sm-10">
+                    <h2>Editar informações do <b>profissional</b></h2>
+                </div>
+            </div>
+        </div>
+
+        <form id="formProfissionais" data-bind="with: $root.Model" action="">
+            <div class="row linha-profissional">
+                <div class="col-md-8 mb-3">
+                    <label for="nome">Nome completo</label>
+                    <input type="text" class="form-control required" id="nome" name="nome" data-bind="value: Nome" data-val="true"
+                           data-val-required="O nome é obrigatório." required>
+
+                    <span data-valmsg-for="nome"
+                          data-valmsg-replace="true"
+                          style="color: red;" />
+
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="dataNascimento">Data de nascimento</label>
+                    <input type="date" class="form-control" id="dataNascimento" data-bind="datePicker: DataNascimento">
+                </div>
+            </div>
+
+            <div class="row linha-profissional">
+                <div class="col-md-3 mb-3">
+                    <label for="cpf">CPF</label>
+                    <input type="text" class="form-control" id="cpf" data-bind="value: CPF">
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label for="rg">RG</label>
+                    <input type="text" class="form-control" id="rg" data-bind="value: RG">
+                </div>
+
+                <div class="col-md-6 mb-6">
+                    <label for="idCategoria">Categoria</label>
+                    @Html.Editor("IdCategoria", "Categorias", new { id = "IdCategoria", required = true })
+                </div>
+            </div>
+
+            <div class="row linha-profissional">
+                <div class="col-md-12 mb-3">
+                    <label for="observacoes">Observações</label>
+                    <textarea class="form-control" id="observacoes" data-bind="value: Observacoes"> </textarea>
+                </div>
+            </div>
+
+            <div class="checkbox">
+                <label><input type="checkbox" data-bind="checked: Ativo"> Ativo</label>
+            </div>
+
+            <hr class="mb-4">
+
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th style="width:90%"><h4 class="mb-3">Lista de endereços</h4></th>
+                        <th colspan="2"><button class="btn btn-secondary" type="button" data-bind="click: $root.BtnAdicionarEnderecoClick">Novo endereço</button></th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: Enderecos">
+                    <tr data-bind="visible: Acao() != $.EntityAction.Delete">
+                        <td data-bind="html: $root.DetalharEndereco($data), css: { 'item-new': Acao() === $.EntityAction.New, 'item-update': Acao() === $.EntityAction.Update }"></td>
+                        <td><a href="#" data-bind="click: $root.BtnEditarEnderecoClick">Editar</a></td>
+                        <td><a href="#" data-bind="click: $root.BtnExcluirEnderecoClick">Excluir</a></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <hr class="mb-4">
+
+            <button type="button" class="btn btn-primary" data-bind="click: $root.BtnSalvarClick">Salvar</button>
+            <button type="button" class="btn btn-danger" data-bind="visible: $root.BtnExcluirVisible, click: $root.BtnExcluirClick">Excluir</button>
+            <button type="button" class="btn btn-secondary" data-bind="click: $root.BtnCancelarClick">Cancelar</button>
+        </form>
+    </div>
+</div>
+
+<!-- ko with: $root.EnderecoViewModel -->
+@Html.Partial("ModalEndereco")
+<!-- /ko -->
+
+@section scripts {
+    <script>
+        const vm = new Profissionais_EditarViewModel('@id');
+
+        $(document).ready(function () {
+            ko.applyBindings(vm);
+        });
+
+        $.ContentViewModel = vm;
+    </script>
+}

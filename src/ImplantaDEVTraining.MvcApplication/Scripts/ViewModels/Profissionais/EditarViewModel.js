@@ -1,30 +1,39 @@
-﻿Categorias_EditarViewModel = function (id) {
+﻿Profissionais_EditarViewModel = function (id) {
     var self = this;
 
     self.Id = ko.observable(id);
     self.Model = ko.observable();
 
-    self.BuscarRegistro = function () {
-        const url = '/Categorias/BuscarRegistro';
-        const ajaxParams = { id: self.Id() };
+    self.GetEnderecosArray = function () {
+        return self.Model().Enderecos;
+    };
 
-        const ajaxCallbackFunction = (response) => {
+    self.EnderecoViewModel = new EnderecoViewModel(self.GetEnderecosArray);
+
+    self.BuscarRegistro = function () {
+        const url = '/Profissionais/BuscarRegistro';
+        const ajaxParams = { id: self.Id() };
+        const ajaxFunctionCallback = function (response) {
 
             if (!response) {
                 alert('Erro ao buscar dados!');
                 return;
             }
 
+            if (!response.data.Enderecos) {
+                response.data.Enderecos = [];
+            }
+
             self.Model(ko.viewmodel.fromModel(response.data));
         };
 
-        $.getJSON(url, ajaxParams, ajaxCallbackFunction);
+        $.getJSON(url, ajaxParams, ajaxFunctionCallback);
     };
 
     self.Salvar = function () {
-        const url = '/Categorias/Salvar';
+        const url = '/Profissionais/Salvar';
         const ajaxParams = { entity: ko.toJS(self.Model) };
-        const ajaxCallbackFunction = (response) => {
+        const ajaxFunctionCallback = function (response) {
 
             if (!response) {
                 alert('Erro ao salvar!');
@@ -43,11 +52,11 @@
             alert('Salvo com sucesso!');
         };
 
-        $.post(url, ajaxParams, ajaxCallbackFunction);
+        $.post(url, ajaxParams, ajaxFunctionCallback, 'json');
     };
 
-    self.Validar = function () {
-        return $('#formCategorias').valid();        
+    self.BtnCancelarClick = function () {
+        window.location.href = '/Profissionais';
     };
 
     self.BtnSalvarClick = function () {
@@ -56,21 +65,18 @@
         }
     };
 
-    self.RedirecionarParaPaginaDeBusca = function () {
-        window.location.href = '/Categorias';
-    };
-
-    self.BtnCancelarClick = function () {
-        self.RedirecionarParaPaginaDeBusca();
+    self.Validar = function () {
+        isValid = $("#formProfissionais").valid();
+        return isValid;
     };
 
     self.BtnExcluirVisible = ko.pureComputed(function () {
-        return self.Model() && self.Model().Acao() !== $.EntityAction.New;
+        const actionDataNew = 1;
+        return self.Model() && self.Model().Acao() !== actionDataNew;
     }, self);
 
     self.ConfirmarExclusao = function () {
         return new Promise((resolve, reject) => {
-
             const confirmacao = confirm('Deseja realmente excluir este registro?');
 
             if (confirmacao) {
@@ -83,11 +89,11 @@
 
     self.Excluir = function () {
 
+        const actionDataExcluir = 3;
         const model = ko.toJS(self.Model);
+        model.Acao = actionDataExcluir;
 
-        model.Acao = $.EntityAction.Delete;
-
-        const url = '/Categorias/Salvar';
+        const url = '/Profissionais/Salvar';
         const ajaxParams = { entity: model };
         const ajaxFunctionCallback = function (response) {
 
@@ -104,7 +110,7 @@
                 return;
             }
 
-            self.RedirecionarParaPaginaDeBusca();
+            self.BtnCancelarClick();
         };
 
         $.post(url, ajaxParams, ajaxFunctionCallback, 'json');
@@ -115,5 +121,23 @@
             .then(() => self.Excluir());
     };
 
-    self.BuscarRegistro();
-}
+    self.BtnAdicionarEnderecoClick = function () {
+        const idProfissional = self.Model().Id();
+        self.EnderecoViewModel.AdicionarEndereco(idProfissional);
+    };
+
+    self.BtnEditarEnderecoClick = function (endereco) {
+        self.EnderecoViewModel.AlterarEndereco(endereco);
+    };
+
+    self.BtnExcluirEnderecoClick = function (endereco) {
+        self.EnderecoViewModel.ExcluirEndereco(endereco);
+    };
+
+    self.DetalharEndereco = function (endereco) {
+        return `${endereco.Logradouro()}, núm. ${endereco.Numero()} - ${endereco.Bairro()} - ${endereco.Cidade()}`;
+    };
+
+    $.BuscarCategorias()
+        .then(() => self.BuscarRegistro());
+};

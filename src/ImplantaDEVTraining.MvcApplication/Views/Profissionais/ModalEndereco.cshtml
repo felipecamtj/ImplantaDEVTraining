@@ -1,0 +1,66 @@
+﻿<div class="modal fade" id="modalEndereco" tabindex="-1" role="dialog" aria-labelledby="modalEnderecoTitulo" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalEnderecoTitulo">Endereço</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formEndereco" action="" data-bind="with: Endereco">
+                    <div class="row linha-profissional">
+                        <div class="col-md-4 mb-4">
+                            <label for="cep">CEP</label>
+                            <input type="text" class="form-control" id="cep" name="cep" data-msg-required="O CEP é obrigatório" data-rule-required="true" required data-bind="value: CEP">
+                            <span data-valmsg-for="cep"
+                                  data-valmsg-replace="true"
+                                  style="color: red;" />
+                        </div>
+                    </div>
+
+                    <div class="row linha-profissional">
+                        <div class="col-md-12 mb-12">
+                            <label for="logradouro">Logradouro</label>
+                            <input type="text" class="form-control required" id="logradouro" name="logradouro" data-val="true"
+                                   data-val-required="O logradouro é obrigatório." required data-bind="value: Logradouro">
+                            <span data-valmsg-for="logradouro"
+                                  data-valmsg-replace="true"
+                                  style="color: red;" />
+                        </div>
+                    </div>
+
+                    <div class="row linha-profissional">
+                        <div class="col-md-6 mb-6">
+                            <label for="bairro">Bairro</label>
+                            <input type="text" class="form-control" id="bairro" name="bairro" data-msg-required="O bairro é obrigatório" data-rule-required="true" required data-bind="value: Bairro">
+                            <span data-valmsg-for="bairro"
+                                  data-valmsg-replace="true"
+                                  style="color: red;" />
+                        </div>
+
+                        <div class="col-md-6 mb-6">
+                            <label for="cidade">Cidade</label>
+                            <input type="text" class="form-control" id="cidade" name="cidade" data-msg-required="A cidade é obrigatória" data-rule-required="true" required data-bind="value: Cidade">
+                            <span data-valmsg-for="cidade"
+                                  data-valmsg-replace="true"
+                                  style="color: red;" />
+                        </div>
+                    </div>
+
+                    <div class="row linha-profissional">
+                        <div class="col-md-4 mb-4">
+                            <label for="numero">Número</label>
+                            <input type="text" class="form-control" id="numero" data-bind="value: Numero">
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" data-bind="click: BtnSalvarEnderecoClick">Confirmar</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -182,6 +182,8 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\ViewModels\Categorias\EditarViewModel.js" />
     <Content Include="Scripts\ViewModels\Categorias\IndexViewModel.js" />
+    <Content Include="Scripts\ViewModels\Profissionais\EditarViewModel.js" />
+    <Content Include="Scripts\ViewModels\Profissionais\EnderecoViewModel.js" />
     <Content Include="Scripts\ViewModels\Profissionais\IndexViewModel.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -202,6 +204,9 @@
     <Content Include="Scripts\knockout.custom-bindings.js" />
     <Content Include="Views\Categorias\Editar.cshtml" />
     <Content Include="Views\Profissionais\Index.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Categorias.cshtml" />
+    <Content Include="Views\Profissionais\Editar.cshtml" />
+    <Content Include="Views\Profissionais\ModalEndereco.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

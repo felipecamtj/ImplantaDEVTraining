@@ -5,4 +5,4 @@
     Delete: 3
 };
 
-$.DropdownLists = {};
+$.DropDownLists = {};

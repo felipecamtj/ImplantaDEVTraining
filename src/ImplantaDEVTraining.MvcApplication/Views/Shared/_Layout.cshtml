@@ -1,13 +1,16 @@
-﻿<!DOCTYPE html>
+﻿@* Layout copiado de: https://codepen.io/naikjavaid/pen/XPrpjr*@
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
-    
+
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    
+
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js'></script>
     <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js'></script>
 </head>
 <body>
@@ -19,12 +22,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("ImplantaDEVTraining", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Categorias", "Index", "Categorias")</li>
-                    <li>@Html.ActionLink("Profissionais", "Index", "Profissionais")</li>                  
+                    <li>@Html.ActionLink("Profissionais", "Index", "Profissionais")</li>
                 </ul>
             </div>
         </div>
@@ -40,12 +43,11 @@
             <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
         </footer>
     </div>
-    @Scripts.Render("~/bundles/knockoutjs")
+
     @Scripts.Render("~/bundles/knockout-viewmodel")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/validation")
     @Scripts.Render("~/bundles/viewmodels")
-
     @RenderSection("scripts", required: false)
 </body>
 </html>

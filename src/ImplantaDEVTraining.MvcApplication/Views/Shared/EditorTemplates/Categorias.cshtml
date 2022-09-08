@@ -1,0 +1,76 @@
+﻿@{
+    string id = ViewData["id"].ToString();
+    bool required = false;
+
+    if (ViewData["required"] != null)
+    {
+        required = (bool)ViewData["required"];
+    }
+}
+
+@if (required)
+{
+    <select id="@id"
+            name="@id"
+            class="form-control"
+            data-val="true"
+            data-val-required="A categoria é obrigatória"
+            required
+            data-bind="
+            options: $.DropDownLists.@id,
+            optionsText: 'Nome',
+            value: @id,
+            optionsValue: 'Id',
+            optionsCaption: 'Selecione...'">
+    </select>
+
+    <span data-valmsg-for="@id"
+          data-valmsg-replace="true"
+          style="color: red;" />
+}
+else
+{
+    <select id="@id"
+            name="@id"
+            class="form-control"
+            data-bind="
+            options: $.DropDownLists.@id,
+            optionsText: 'Nome',
+            value: @id,
+            optionsValue: 'Id',
+            optionsCaption: 'Selecione...'">
+    </select>
+}
+
+<script>
+
+    $.DropDownLists.@id = ko.observableArray();
+
+    $.BuscarCategorias = function () {
+        return new Promise((resolve, reject) => {
+            const url = '/Categorias/BuscarRegistros';
+            const ajaxParams = { SomenteAtivos: true, Ids: [], Id: null };
+            const ajaxFunctionCallback = function (response) {
+
+                const array = $.DropDownLists.@id;
+                array.removeAll();
+
+                if (!response) {
+                    alert('Erro ao buscar categorias!');
+                    reject();
+                    return;
+                }
+
+                ko.utils.arrayForEach(response.data, (c) => {
+                    array.push(c);
+                });
+
+                resolve();
+            };
+
+            $.getJSON(url, ajaxParams, ajaxFunctionCallback);
+
+        });
+    };
+
+</script>
