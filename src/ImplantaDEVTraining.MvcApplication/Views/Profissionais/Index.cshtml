@@ -1,0 +1,73 @@
+﻿@{
+    ViewBag.Title = "Profissionais";
+}
+
+<div class="container">
+    <div class="table-wrapper">
+        <div class="">
+            <div class="row">
+                <div class="col-sm-10">
+                    <h2>Pesquisa de <b>profissionais</b></h2>
+                </div>
+            </div>
+        </div>
+
+        <div data-bind="with: $root.Filtro">
+            <div class="row div-search-filter">
+                <div class="col-sm-10">
+                    <label for="nome" class="form-label">Nome:</label>
+                    <input type="text" class="form-control" data-bind="value: Nome" id="nome" name="nome" placeholder="Digite um nome para pesquisar">
+
+                    <div class="form-check chk-somente-ativos">
+                        <input class="form-check-input" type="checkbox" value="" id="chk-somente-ativos" data-bind="checked: SomenteAtivos">
+                        <label class="form-check-label" for="chk-somente-ativos">
+                            Somente ativos?
+                        </label>
+                    </div>
+                </div>
+                <div class="col-sm-2 btn-pesquisar-div">
+                    <button class="btn btn-primary btn-pesquisar" data-bind="click: $root.btnPesquisarClick, html: $root.TextoBtnPesquisar, disable: $root.Pesquisando">Pesquisar</button>
+                </div>
+            </div>
+        </div>
+
+        <table class="table table-striped table-hover" data-bind="visible: ExistemDados()">
+            <thead>
+                <tr>
+                    <th scope="col" style="width:70%">Nome</th>
+                    <th scope="col">CPF</th>
+                    <th scope="col">RG</th>
+                    <th scope="col">Ativo?</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: Registros">
+                <tr>
+                    <td>
+                        <a href="#" data-bind="html: Nome, click: $root.btnEditarClick"></a>
+                    </td>
+                    <td>
+                        <a href="#" data-bind="html: CPF, click: $root.btnEditarClick"></a>
+                    </td>
+                    <td>
+                        <a href="#" data-bind="html: RG, click: $root.btnEditarClick"></a>
+                    </td>
+                    <td data-bind="html: Ativo() ? 'Sim' : 'Não'"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="add-container">
+            <div class="vertical-center">
+                <a href="#" class="btn btn-success" data-bind="click: $root.btnNovoClick"><span>Novo profissional</span></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            ko.applyBindings(new Profissionais_IndexViewModel());
+        });
+    </script>
+}

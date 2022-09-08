@@ -1,4 +1,7 @@
 ﻿Categorias_EditarViewModel = function (id) {
+
+    debugger;
+
     var self = this;
 
     self.Id = ko.observable(id);
